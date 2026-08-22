@@ -1,0 +1,233 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Icon from '../components/Icon.astro';
+import { SITE } from '../data/site';
+import { breadcrumbSchema, localBusinessSchema } from '../data/schemas';
+
+const description =
+  'Arnav Engineers, based in Chikhali (Pune), manufactures precision machined components, welding fixtures, inspection fixtures and prototype parts — led by proprietor Dattatraya Shinde with a skilled in-house team.';
+
+const team = [
+  { role: 'Accountant', qualification: 'B.Com', count: 1 },
+  { role: 'Miller', qualification: 'Skilled ITI', count: 1 },
+  { role: 'Turner', qualification: 'Skilled ITI', count: 1 },
+  { role: 'M1TR Operator', qualification: 'ITI', count: 1 },
+  { role: 'Welder', qualification: 'ITI', count: 1 },
+  { role: 'Helper', qualification: '12th', count: 1 },
+];
+
+const promises = [
+  {
+    icon: 'shield-check',
+    title: 'Quality Excellence',
+    text: 'We deliver consistent, reliable and high-quality products. Every batch is checked against drawing dimensions on calibrated MITUTOYO instruments before it leaves our workshop.',
+  },
+  {
+    icon: 'truck',
+    title: 'On-Time Delivery',
+    text: 'Meeting deadlines without compromise. We plan machining and fabrication capacity realistically and keep you informed at every stage of your order.',
+  },
+  {
+    icon: 'coins',
+    title: 'Cost Efficiency',
+    text: 'By continuously optimising our processes and getting it right the first time, we offer competitive pricing without cutting corners on material or finish.',
+  },
+] as const;
+---
+
+<BaseLayout
+  title="About Us"
+  description={description}
+  schema={[breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'About' }]), localBusinessSchema]}
+>
+  <PageHero
+    eyebrow="About us"
+    title="A dependable tool room partner in Pune"
+    description={description}
+    breadcrumbs={[{ label: 'About' }]}
+  />
+
+  <!-- Story -->
+  <section class="py-20 lg:py-28" aria-labelledby="story-heading">
+    <div class="container-site grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+      <div>
+        <SectionHeading
+          id="story-heading"
+          eyebrow="Who we are"
+          title="Manufacturing & supplying precision since day one"
+          align="left"
+        />
+        <div class="mt-6 space-y-5 text-base leading-relaxed text-slate-600">
+          <p>
+            <strong class="font-semibold text-navy-900">{SITE.name}</strong> is a tool room company
+            based at Chikhali on Dehu-Alandi Road, Pune. We manufacture & supply precision machined
+            components and take up tool room job works of every size.
+          </p>
+          <p>
+            Alongside machining, we design, manufacture & supply welding fixtures, inspection
+            fixtures and prototype parts for automation, automotive and general engineering
+            companies across the Pune industrial belt — including Bhosari, Chakan and PCMC areas.
+          </p>
+          <p>
+            The company is led by proprietor <strong class="font-semibold text-navy-900"
+              >{SITE.proprietor}</strong
+            >, supported by a hands-on team of skilled ITI tradesmen. As a GST-registered enterprise,
+            we serve both large OEM vendors and growing startups with the same commitment: quality
+            excellence and on-time delivery.
+          </p>
+        </div>
+
+        <dl class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <dt class="text-xs font-medium tracking-wide text-slate-500 uppercase">Proprietor</dt>
+            <dd class="mt-1 text-sm font-bold text-navy-950">{SITE.proprietor}</dd>
+          </div>
+          <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <dt class="text-xs font-medium tracking-wide text-slate-500 uppercase">GSTIN</dt>
+            <dd class="mt-1 text-sm font-bold text-navy-950">{SITE.gst}</dd>
+          </div>
+          <div class="col-span-2 rounded-xl border border-slate-200 bg-slate-50 p-4 sm:col-span-1">
+            <dt class="text-xs font-medium tracking-wide text-slate-500 uppercase">Location</dt>
+            <dd class="mt-1 text-sm font-bold text-navy-950">Chikhali, Pune — 411062</dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Promise card stack -->
+      <div class="space-y-5">
+        {
+          promises.map((p) => (
+            <article class="rounded-2xl border border-slate-200 bg-white p-7 shadow-card">
+              <span class="grid size-12 place-items-center rounded-xl bg-navy-950 text-flame-500">
+                <Icon name={p.icon} className="size-6" />
+              </span>
+              <h3 class="mt-4 text-lg">{p.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600">{p.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="bg-slate-50 py-20 lg:py-28" aria-labelledby="team-heading">
+    <div class="container-site grid items-start gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+      <div>
+        <SectionHeading
+          id="team-heading"
+          eyebrow="Our people"
+          title="Skilled hands behind every part"
+          description="A compact, cross-trained crew where every member owns quality personally — no handoffs, no excuses."
+          align="left"
+        />
+        <ul class="mt-8 space-y-4">
+          {
+            [
+              'ITI-certified millers, turners and welders',
+              'Direct supervision by the proprietor on the shop floor',
+              'Every operator trained to check their own work first',
+            ].map((item) => (
+              <li class="flex items-start gap-3 text-slate-700">
+                <Icon name="users" className="mt-0.5 size-5 shrink-0 text-flame-600" />
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card">
+        <table class="w-full text-left text-sm">
+          <caption class="sr-only">Arnav Engineers manpower and qualifications</caption>
+          <thead class="bg-navy-950 text-white">
+            <tr>
+              <th scope="col" class="px-6 py-4 font-semibold">Role</th>
+              <th scope="col" class="px-6 py-4 font-semibold">Qualification</th>
+              <th scope="col" class="px-6 py-4 text-right font-semibold">Headcount</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            {
+              team.map((m) => (
+                <tr class="transition-colors hover:bg-navy-50/50">
+                  <th scope="row" class="px-6 py-3.5 font-medium text-navy-950">
+                    {m.role}
+                  </th>
+                  <td class="px-6 py-3.5 text-slate-600">{m.qualification}</td>
+                  <td class="px-6 py-3.5 text-right font-semibold text-navy-800">{m.count}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- How we work -->
+  <section class="py-20 lg:py-28" aria-labelledby="process-heading">
+    <div class="container-site">
+      <SectionHeading
+        id="process-heading"
+        eyebrow="How we work"
+        title="From your drawing to a finished part"
+      />
+      <ol class="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          [
+            {
+              step: '01',
+              title: 'Share your drawing',
+              text: 'Send drawings (PDF/DWG), a sample or just a sketch on WhatsApp or email.',
+            },
+            {
+              step: '02',
+              title: 'Feasibility & quote',
+              text: 'We review manufacturability, materials and cycle time — then quote with a committed date.',
+            },
+            {
+              step: '03',
+              title: 'Manufacture',
+              text: 'Your job is machined, welded and finished in-house with stage checks along the way.',
+            },
+            {
+              step: '04',
+              title: 'Inspect & deliver',
+              text: 'Final inspection on calibrated MITUTOYO instruments, then packed and delivered on time.',
+            },
+          ].map((s) => (
+            <li class="relative rounded-2xl border border-slate-200 bg-white p-7 shadow-card">
+              <span class="font-display text-4xl font-bold text-flame-500/25">{s.step}</span>
+              <h3 class="mt-3 text-lg">{s.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600">{s.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="pb-20 lg:pb-28">
+    <div class="container-site">
+      <div class="rounded-[2rem] bg-gradient-to-br from-navy-800 via-navy-900 to-navy-950 px-8 py-12 text-center sm:px-14">
+        <h2 class="mx-auto max-w-2xl text-3xl text-white sm:text-4xl">
+          Let's build your next fixture or component.
+        </h2>
+        <p class="mx-auto mt-4 max-w-xl text-navy-200">
+          Tell us what you need — we'll come back with a practical plan and honest pricing.
+        </p>
+        <a
+          href="/contact/"
+          class="mt-8 inline-flex items-center gap-2 rounded-full bg-flame-500 px-7 py-3.5 text-sm font-semibold text-navy-950 transition-all hover:-translate-y-0.5 hover:bg-flame-400"
+        >
+          Contact Us
+          <Icon name="arrow-right" className="size-4" />
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

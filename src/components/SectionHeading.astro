@@ -1,0 +1,47 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  description?: string;
+  align?: 'left' | 'center';
+  dark?: boolean;
+  /** id applied to the h2 so sections can be referenced via aria-labelledby */
+  id?: string;
+}
+
+const { eyebrow, title, description, align = 'center', dark = false, id } = Astro.props;
+---
+
+<div class:list={['max-w-3xl', align === 'center' && 'mx-auto text-center']}>
+  <p
+    class:list={[
+      'flex items-center gap-2 text-sm font-semibold tracking-[0.18em] uppercase',
+      align === 'center' && 'justify-center',
+      dark ? 'text-flame-400' : 'text-flame-600',
+    ]}
+  >
+    <span class="inline-block h-[3px] w-6 rounded-full bg-current" aria-hidden="true"></span>
+    {eyebrow}
+    {
+      align === 'center' && (
+        <span class="inline-block h-[3px] w-6 rounded-full bg-current" aria-hidden="true" />
+      )
+    }
+  </p>
+  <h2
+    id={id}
+    class:list={[
+      'mt-3 text-3xl sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]',
+      dark && 'text-white',
+    ]}
+  >
+    {title}
+  </h2>
+  {
+    description && (
+      <p class:list={['mt-4 text-base leading-relaxed sm:text-lg', dark ? 'text-navy-200' : 'text-slate-600']}>
+        {description}
+      </p>
+    )
+  }
+</div>

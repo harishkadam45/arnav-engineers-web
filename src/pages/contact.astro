@@ -1,0 +1,237 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { SITE } from '../data/site';
+import { breadcrumbSchema, localBusinessSchema } from '../data/schemas';
+
+const description = `Contact Arnav Engineers — call ${SITE.phoneDisplay} or email ${SITE.email} for quotes on precision machined components, welding fixtures, inspection fixtures and prototype parts. Workshop at Chikhali, Dehu-Alandi Road, Pune 411062.`;
+
+const contactCards = [
+  {
+    icon: 'phone',
+    label: 'Call us',
+    value: SITE.phoneDisplay,
+    sub: SITE.proprietor,
+    href: `tel:${SITE.phone}`,
+  },
+  {
+    icon: 'mail',
+    label: 'Email us',
+    value: SITE.email,
+    sub: 'Send drawings in PDF / DWG / image',
+    href: `mailto:${SITE.email}`,
+  },
+] as const;
+
+const mapSrc =
+  'https://www.google.com/maps?q=' +
+  encodeURIComponent('Ramkrishna Residency, Dehu-Alandi Road, Chikhali, Pune, Maharashtra 411062') +
+  '&output=embed';
+---
+
+<BaseLayout
+  title="Contact Us"
+  description={description}
+  schema={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ContactPage',
+      name: `Contact ${SITE.name}`,
+      url: new URL(Astro.url.pathname, SITE.url).href,
+      description,
+      about: { '@id': SITE.url },
+    },
+    breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Contact' }]),
+    localBusinessSchema,
+  ]}
+>
+  <PageHero
+    eyebrow="Contact us"
+    title="Request a quote or ask a question"
+    description="Share your drawing, sample or requirement — we reply quickly with feasibility, pricing and a committed delivery date."
+    breadcrumbs={[{ label: 'Contact' }]}
+  />
+
+  <section class="py-16 lg:py-24">
+    <div class="container-site grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
+      <!-- Info column -->
+      <div>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+          {
+            contactCards.map((card) => (
+              <a
+                href={card.href}
+                class="group rounded-2xl border border-slate-200 bg-white p-6 shadow-card transition-all hover:-translate-y-1 hover:border-navy-200 hover:shadow-card-lg"
+              >
+                <span class="grid size-11 place-items-center rounded-xl bg-navy-50 text-navy-700 transition-colors group-hover:bg-flame-500 group-hover:text-navy-950">
+                  <Icon name={card.icon} className="size-5" />
+                </span>
+                <p class="mt-4 text-xs font-semibold tracking-wider text-slate-400 uppercase">{card.label}</p>
+                <p class="mt-1 text-sm font-bold break-all text-navy-950">{card.value}</p>
+                <p class="mt-1 text-xs text-slate-500">{card.sub}</p>
+              </a>
+            ))
+          }
+        </div>
+
+        <div class="mt-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-card sm:p-7">
+          <span class="grid size-11 place-items-center rounded-xl bg-navy-50 text-navy-700">
+            <Icon name="map-pin" className="size-5" />
+          </span>
+          <address class="mt-4 text-sm leading-relaxed text-slate-600 not-italic">
+            <strong class="font-semibold text-navy-950">Workshop address</strong><br />
+            {SITE.address.line1},<br />
+            {SITE.address.line2} — {SITE.address.postalCode},<br />
+            {SITE.address.state}, {SITE.address.country}
+          </address>
+          <dl class="mt-5 space-y-2 border-t border-slate-100 pt-5 text-sm">
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">GSTIN</dt>
+              <dd class="text-right font-medium text-navy-950">{SITE.gst}</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Proprietor</dt>
+              <dd class="text-right font-medium text-navy-950">{SITE.proprietor}</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Service area</dt>
+              <dd class="text-right font-medium text-navy-950">Pune & PCMC industrial belt</dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- Map -->
+        <div class="mt-4 overflow-hidden rounded-2xl border border-slate-200 shadow-card">
+          <iframe
+            src={mapSrc}
+            title={`Map showing location of ${SITE.name} in Chikhali, Pune`}
+            width="100%"
+            height="280"
+            style="border:0"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- Form column -->
+      <div class="rounded-[2rem] bg-navy-950 p-8 sm:p-10">
+        <h2 class="text-2xl text-white sm:text-3xl">Send an enquiry</h2>
+        <p class="mt-3 text-sm leading-relaxed text-navy-200">
+          Fill this in and your email app will open with a ready-made message to us. For drawings,
+          please attach them after the mail opens — or WhatsApp a photo straightaway.
+        </p>
+
+        <form id="enquiry-form" class="mt-8 grid gap-5" novalidate>
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="f-name" class="mb-1.5 block text-sm font-semibold text-navy-100">
+                Your name <span class="text-flame-500">*</span>
+              </label>
+              <input
+                id="f-name"
+                name="name"
+                type="text"
+                required
+                autocomplete="name"
+                placeholder="Full name"
+                class="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-navy-300 focus:border-flame-500 focus:bg-white/10 focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="f-phone" class="mb-1.5 block text-sm font-semibold text-navy-100">
+                Phone / WhatsApp
+              </label>
+              <input
+                id="f-phone"
+                name="phone"
+                type="tel"
+                autocomplete="tel"
+                placeholder="+91 …"
+                class="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-navy-300 focus:border-flame-500 focus:bg-white/10 focus:outline-none"
+              />
+            </div>
+          </div>
+          <div>
+            <label for="f-company" class="mb-1.5 block text-sm font-semibold text-navy-100">
+              Company name
+            </label>
+            <input
+              id="f-company"
+              name="company"
+              type="text"
+              autocomplete="organization"
+              placeholder="Company Pvt. Ltd."
+              class="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-navy-300 focus:border-flame-500 focus:bg-white/10 focus:outline-none"
+            />
+          </div>
+          <div>
+            <label for="f-message" class="mb-1.5 block text-sm font-semibold text-navy-100">
+              What do you need? <span class="text-flame-500">*</span>
+            </label>
+            <textarea
+              id="f-message"
+              name="message"
+              rows="5"
+              required
+              placeholder="e.g. Need 50 brass bushings machined per drawing — can share PDF."
+              class="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-navy-300 focus:border-flame-500 focus:bg-white/10 focus:outline-none"></textarea>
+          </div>
+          <button
+            type="submit"
+            class="inline-flex items-center justify-center gap-2 rounded-full bg-flame-500 px-8 py-4 text-sm font-semibold text-navy-950 transition-all hover:-translate-y-0.5 hover:bg-flame-400"
+          >
+            <Icon name="mail" className="size-4" />
+            Open Email & Send
+          </button>
+          <p id="form-status" class="hidden rounded-xl bg-flame-500/10 px-4 py-3 text-sm text-flame-300" role="status"></p>
+          <p class="text-xs leading-relaxed text-navy-300">
+            Prefer talking? Call us directly at
+            <a href={`tel:${SITE.phone}`} class="font-semibold text-flame-400 hover:underline">
+              {SITE.phoneDisplay}
+            </a>. We're usually reachable Mon–Sat during working hours.
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  (() => {
+    const form = document.getElementById('enquiry-form');
+    const status = document.getElementById('form-status');
+    if (!form || !status) return;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+      if (!data.name?.trim() || !data.message?.trim()) {
+        status.textContent = 'Please fill in your name and what you need.';
+        status.classList.remove('hidden');
+        return;
+      }
+      const subject = encodeURIComponent(
+        `Enquiry from ${data.name.trim()}${data.company ? ' — ' + data.company.trim() : ''}`,
+      );
+      const body = encodeURIComponent(
+        [
+          `Name: ${data.name.trim()}`,
+          data.company ? `Company: ${data.company.trim()}` : null,
+          data.phone ? `Phone: ${data.phone.trim()}` : null,
+          '',
+          'Requirement:',
+          data.message.trim(),
+          '',
+          '(Sent from arnavengineers.com contact form)',
+        ]
+          .filter((l) => l !== null)
+          .join('\n'),
+      );
+      window.location.href = `mailto:${'dattatrayshinde435'}@${'gmail.com'}?subject=${subject}&body=${body}`;
+      status.textContent = 'Your email app should open now — just press send!';
+      status.classList.remove('hidden');
+    });
+  })();
+</script>

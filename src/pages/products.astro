@@ -1,0 +1,125 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { SITE } from '../data/site';
+import { PRODUCTS, PRODUCT_CATEGORIES } from '../data/products';
+import { breadcrumbSchema } from '../data/schemas';
+
+const description =
+  'Gallery of precision components manufactured & supplied by Arnav Engineers — bronze bushings, sleeves, brackets, threaded shafts, mounting plates and laser-cut parts made to customer drawings.';
+---
+
+<BaseLayout
+  title="Products"
+  description={description}
+  schema={[
+    breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Products' }]),
+  ]}
+>
+  <PageHero
+    eyebrow="Our products"
+    title="Precision components, made to your drawing"
+    description="A selection of parts we regularly manufacture & supply. Don't see yours? Send us a drawing — chances are we've made something similar."
+    breadcrumbs={[{ label: 'Products' }]}
+  />
+
+  <section class="py-16 lg:py-24">
+    <div class="container-site">
+      <!-- Filters -->
+      <div class="flex flex-wrap items-center justify-center gap-2" role="group" aria-label="Filter products by category">
+        <button type="button" data-filter="all" aria-pressed="true"
+          class="filter-chip rounded-full border border-navy-950 bg-navy-950 px-5 py-2 text-sm font-semibold text-white transition-colors">
+          All
+        </button>
+        {
+          PRODUCT_CATEGORIES.map((cat) => (
+            <button type="button" data-filter={cat} aria-pressed="false"
+              class="filter-chip rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-semibold text-slate-600 transition-colors hover:border-navy-300 hover:text-navy-900">
+              {cat}
+            </button>
+          ))
+        }
+      </div>
+
+      <!-- Gallery -->
+      <ul id="product-grid" class="mt-12 grid gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {
+          PRODUCTS.map((p) => (
+            <li data-category={p.category} class="product-card group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-lg">
+              <div class="relative overflow-hidden bg-slate-100">
+                <Image
+                  src={p.image}
+                  alt={p.alt}
+                  widths={[280, 420, 640]}
+                  sizes="(min-width: 1280px) 22vw, (min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw"
+                  loading="lazy"
+                  class="aspect-[5/4] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <span class="absolute top-3 left-3 rounded-full bg-navy-950/85 px-3 py-1 text-[11px] font-semibold tracking-wide text-white backdrop-blur">
+                  {p.category}
+                </span>
+              </div>
+              <div class="flex flex-1 flex-col p-5">
+                <h2 class="text-base">{p.name}</h2>
+                <p class="mt-1.5 text-sm leading-relaxed text-slate-600">{p.blurb}</p>
+                <a href="/contact/" class="mt-auto inline-flex items-center gap-1.5 pt-4 text-sm font-semibold text-flame-600 transition-colors hover:text-flame-700">
+                  Enquire about this part
+                  <Icon name="arrow-right" className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+                </a>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+
+      <!-- Custom work CTA -->
+      <div class="mt-16 rounded-[2rem] bg-slate-50 p-8 text-center sm:p-12">
+        <h2 class="text-2xl sm:text-3xl">Need something not listed here?</h2>
+        <p class="mx-auto mt-3 max-w-xl text-slate-600">
+          Every job starts with your drawing or sample. We manufacture single pieces and repeat
+          batches across materials and finishes.
+        </p>
+        <a
+          href={`tel:${SITE.phone}`}
+          class="mt-6 inline-flex items-center gap-2 rounded-full bg-flame-500 px-7 py-3.5 text-sm font-semibold text-navy-950 transition-all hover:-translate-y-0.5 hover:bg-flame-400"
+        >
+          <Icon name="phone" className="size-4" />
+          Call {SITE.phoneDisplay}
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  (() => {
+    const chips = document.querySelectorAll('.filter-chip');
+    const cards = document.querySelectorAll('.product-card');
+    if (!chips.length || !cards.length) return;
+    const activeCls = ['bg-navy-950', 'border-navy-950', 'text-white'];
+    const idleCls = [
+      'border-slate-200',
+      'bg-white',
+      'text-slate-600',
+      'hover:border-navy-300',
+      'hover:text-navy-900',
+    ];
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const filter = chip.getAttribute('data-filter');
+        chips.forEach((c) => {
+          const on = c === chip;
+          c.setAttribute('aria-pressed', String(on));
+          c.classList.remove(...activeCls, ...idleCls);
+          c.classList.add(...(on ? activeCls : idleCls));
+        });
+        cards.forEach((card) => {
+          const show = filter === 'all' || card.getAttribute('data-category') === filter;
+          card.classList.toggle('hidden', !show);
+        });
+      });
+    });
+  })();
+</script>

@@ -1,0 +1,242 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Icon from '../components/Icon.astro';
+import { breadcrumbSchema, localBusinessSchema } from '../data/schemas';
+
+import m1tr from '../assets/machines/m1tr-mill.jpg';
+import milling from '../assets/machines/universal-milling.jpg';
+import lathe from '../assets/machines/lathe.jpg';
+import arcWelding from '../assets/machines/welding-arc.webp';
+import migWelding from '../assets/machines/welding-mig.jpg';
+import tigWelding from '../assets/machines/welding-tig.jpg';
+
+const description =
+  'Explore Arnav Engineers\' machining facilities — M1TR with DRO, universal milling, heavy-duty lathe, arc/MIG/TIG welding up to 400 AMP, and inspection on calibrated MITUTOYO instruments.';
+
+const machining = [
+  {
+    image: m1tr,
+    alt: 'M1TR milling machine model TRM 3V with digital read-out at Arnav Engineers',
+    name: 'M1TR Machine',
+    make: 'TRM 3V with D.R.O.',
+    specs: [
+      ['Working size', '1200 × 400 × 350 mm'],
+      ['Control', 'Digital read-out (DRO)'],
+      ['Best for', 'Precision milling, drilling & boring'],
+    ],
+  },
+  {
+    image: milling,
+    alt: 'Universal milling machine of Vernier German make at Arnav Engineers workshop',
+    name: 'Universal Milling Machine',
+    make: 'Vernier — German make',
+    specs: [
+      ['Working size', '1000 × 400 × 300 mm'],
+      ['Type', 'Universal — horizontal & vertical setups'],
+      ['Best for', 'Slots, keyways, angles & profiles'],
+    ],
+  },
+  {
+    image: lathe,
+    alt: 'Heavy-duty 5.5 feet lathe machine used for turning jobs at Arnav Engineers',
+    name: 'Heavy-Duty Lathe',
+    make: '5.5 feet bed',
+    specs: [
+      ['Capacity', 'Heavy-duty turning up to 5.5 ft length'],
+      ['Operations', 'Turning, facing, threading, grooving'],
+      ['Best for', 'Shafts, bushings, spacers & sleeves'],
+    ],
+  },
+] as const;
+
+const welding = [
+  {
+    image: arcWelding,
+    alt: 'Arc welding machine — Ador Champ 400 AMP at Arnav Engineers',
+    name: 'Arc Welding',
+    make: 'Ador Champ — 400 AMP',
+  },
+  {
+    image: migWelding,
+    alt: 'MIG welding machine — SAI ARC 350 AMP at Arnav Engineers',
+    name: 'MIG Welding',
+    make: 'SAI ARC — 350 AMP',
+  },
+  {
+    image: tigWelding,
+    alt: 'TIG welding machine — 400 AMP at Arnav Engineers',
+    name: 'TIG Welding',
+    make: '400 AMP',
+  },
+] as const;
+
+const instruments = [
+  'Vernier Caliper: 0–300 mm (MITUTOYO)',
+  'Vernier Caliper (Dial & Digital): 0–300 mm (MITUTOYO)',
+  'Vernier Caliper: 0–600 mm (MITUTOYO)',
+  'Micrometer: 0–100 mm (MITUTOYO)',
+  'Vernier Height Gauge: 0–300 mm',
+  'Micrometer Depth Gauge: 0–25 mm',
+  'Degree Protector (MITUTOYO)',
+];
+---
+
+<BaseLayout
+  title="Manufacturing Capabilities"
+  description={description}
+  schema={[
+    breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Capabilities' }]),
+    localBusinessSchema,
+  ]}
+>
+  <PageHero
+    eyebrow="Our capabilities"
+    title="Machining, welding & inspection under one roof"
+    description={description}
+    breadcrumbs={[{ label: 'Capabilities' }]}
+  />
+
+  <!-- Machining -->
+  <section class="py-20 lg:py-28" aria-labelledby="machining-heading">
+    <div class="container-site">
+      <SectionHeading
+        id="machining-heading"
+        eyebrow="Machining facilities"
+        title="Conventional machines, CNC-grade discipline"
+        description="Every machine is maintained for accuracy and operated by ITI-certified machinists."
+      />
+
+      <div class="mt-14 grid gap-8 lg:grid-cols-3">
+        {
+          machining.map((m) => (
+            <article class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card transition-shadow hover:shadow-card-lg">
+              <div class="relative overflow-hidden">
+                <Image
+                  src={m.image}
+                  alt={m.alt}
+                  widths={[340, 520]}
+                  sizes="(min-width: 1024px) 30vw, 92vw"
+                  loading="lazy"
+                  class="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <span class="absolute top-4 left-4 rounded-full bg-navy-950/85 px-3 py-1 text-xs font-semibold tracking-wide text-white backdrop-blur">
+                  {m.make}
+                </span>
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <h3 class="text-xl">{m.name}</h3>
+                <dl class="mt-4 space-y-2.5 text-sm">
+                  {m.specs.map(([label, value]) => (
+                    <div class="flex gap-2">
+                      <dt class="w-24 shrink-0 font-medium text-slate-400">{label}</dt>
+                      <dd class="font-medium text-navy-900">{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Welding -->
+  <section class="bg-slate-50 py-20 lg:py-28" aria-labelledby="welding-heading">
+    <div class="container-site">
+      <SectionHeading
+        id="welding-heading"
+        eyebrow="Fabrication & welding"
+        title="Three welding processes, one quality standard"
+        description="From fixture bodies to fabricated assemblies — welded by trained welders on properly set machines."
+      />
+
+      <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          welding.map((w) => (
+            <article class="group relative overflow-hidden rounded-2xl ring-1 ring-slate-200 shadow-card">
+              <Image
+                src={w.image}
+                alt={w.alt}
+                widths={[340, 520]}
+                sizes="(min-width: 1024px) 30vw, 92vw"
+                loading="lazy"
+                class="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy-950/90 via-navy-950/40 to-transparent p-5 pt-14">
+                <h3 class="text-lg text-white">{w.name}</h3>
+                <p class="text-sm font-medium text-flame-400">{w.make}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Inspection -->
+  <section class="py-20 lg:py-28" aria-labelledby="inspection-heading">
+    <div class="container-site grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <SectionHeading
+          id="inspection-heading"
+          eyebrow="Inspection facilities"
+          title="Measured, not assumed"
+          description="Dimensions are verified against your drawing on calibrated MITUTOYO measuring instruments before anything is packed."
+          align="left"
+        />
+        <ul class="mt-8 divide-y divide-slate-100 rounded-2xl border border-slate-200 bg-white shadow-card">
+          {
+            instruments.map((item) => (
+              <li class="flex items-center gap-3 px-6 py-3.5 text-sm font-medium text-navy-900">
+                <Icon name="ruler" className="size-4.5 shrink-0 text-flame-600" />
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <aside class="rounded-[2rem] bg-navy-950 p-8 sm:p-10">
+        <div class="absolute" aria-hidden="true"></div>
+        <span class="grid size-12 place-items-center rounded-xl bg-flame-500/15 text-flame-500">
+          <Icon name="shield-check" className="size-6" />
+        </span>
+        <h3 class="mt-5 text-2xl text-white">Our promise on every order</h3>
+        <ul class="mt-6 space-y-4">
+          {
+            [
+              {
+                icon: 'shield-check',
+                text: 'Quality Excellence — consistent, reliable products every batch',
+              },
+              {
+                icon: 'truck',
+                text: 'On-Time Delivery — deadlines met without compromise',
+              },
+              {
+                icon: 'coins',
+                text: 'Cost Efficiency — optimised processes, competitive pricing',
+              },
+            ].map((p) => (
+              <li class="flex items-start gap-3 text-navy-100">
+                <Icon name={p.icon} className="mt-0.5 size-5 shrink-0 text-flame-500" />
+                {p.text}
+              </li>
+            ))
+          }
+        </ul>
+        <a
+          href="/contact/"
+          class="mt-8 inline-flex items-center gap-2 rounded-full bg-flame-500 px-6 py-3 text-sm font-semibold text-navy-950 transition-all hover:-translate-y-0.5 hover:bg-flame-400"
+        >
+          Discuss your requirement
+          <Icon name="arrow-right" className="size-4" />
+        </a>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
