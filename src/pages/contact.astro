@@ -135,9 +135,21 @@ const mapSrc =
           them when we reply.
         </p>
 
-        <form id="enquiry-form" class="mt-8 grid gap-5" novalidate>
+        <form
+          id="enquiry-form"
+          name="enquiry"
+          method="POST"
+          action="/"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          class="mt-8 grid gap-5"
+          novalidate
+        >
+          <input type="hidden" name="form-name" value="enquiry" />
           <!-- Honeypot field for spam bots — humans never see or fill it -->
-          <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+          <p class="hidden" aria-hidden="true">
+            <label>Don't fill this out if you're human: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+          </p>
           <div class="grid gap-5 sm:grid-cols-2">
             <div>
               <label for="f-name" class="mb-1.5 block text-sm font-semibold text-navy-100">
@@ -266,10 +278,8 @@ const mapSrc =
     const dialogClose = document.getElementById('dialog-close');
     if (!form || !status) return;
 
-    // FormSubmit.co forwards each submission to this inbox — no server required.
-    // NOTE: the very first submission sends a one-time activation email to
-    // dattatrayshinde435@gmail.com which must be clicked once to enable delivery.
-    const ENDPOINT = 'https://formsubmit.co/ajax/dattatrayshinde435@gmail.com';
+    // Netlify Forms handles delivery — submissions land in the Netlify dashboard
+    // (Forms tab) and are forwarded to the inbox configured in Form notifications.
 
     const VALIDATORS = {
       name: (v) => {
@@ -374,23 +384,16 @@ const mapSrc =
       submitBtn.textContent = 'Submitting…';
 
       try {
-        const res = await fetch(ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({
-            name: data.name.trim(),
-            phone: data.phone?.trim() || '—',
-            company: data.company?.trim() || '—',
-            requirement: data.message.trim(),
-            _subject: `Website Enquiry — ${data.name.trim()}`,
-            _template: 'table',
-            _captcha: 'false',
-          }),
+        const payload = new URLSearchParams();
+        Object.entries(data).forEach(([key, value]) => {
+          if (typeof value === 'string' && value.trim()) payload.append(key, value.trim());
         });
-        const json = await res.json().catch(() => ({}));
-        if (!res.ok || !(json.success === 'true' || json.success === true)) {
-          throw new Error(json.message || 'Submission failed');
-        }
+        const res = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: payload.toString(),
+        });
+        if (!res.ok) throw new Error('Submission failed');
         form.reset();
         fields.forEach((field) => field.input.setAttribute('aria-invalid', 'false'));
         if (dialog) {
