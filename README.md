@@ -47,5 +47,6 @@ npm run preview    # preview the production build
    - `public/robots.txt`
    - Contact form footer note in `src/pages/contact.astro`
 2. Update approximate geo-coordinates in `src/data/site.ts` if you have exact workshop coordinates.
-3. Deploy `dist/` to any static host (Cloudflare Pages / Netlify / Vercel / cPanel). For a form that sends mail without opening the user's email app, wire `src/pages/contact.astro` to Formspree/Web3Forms or similar.
+3. Deploy `dist/` to any static host (Cloudflare Pages / Netlify / Vercel / cPanel).
+   - **Contact form**: submissions are delivered via [FormSubmit](https://formsubmit.co) to `dattatrayshinde435@gmail.com` — no server needed. **The very first submission triggers a one-time activation email to that inbox; it must be opened and confirmed once** (or the form will silently not deliver). Spam protection: honeypot field + FormSubmit's own filtering. To switch providers later, replace `ENDPOINT` in `src/pages/contact.astro` (e.g. Web3Forms/Formspree).
 4. After launch: submit the sitemap in Google Search Console and create a Google Business Profile matching the site's name/address/phone exactly.
