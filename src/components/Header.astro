@@ -1,7 +1,7 @@
 ---
 import { SITE, NAV_LINKS } from '../data/site';
 import Icon from './Icon.astro';
-import logo from '../assets/brand/logo.webp';
+import logo from '../assets/brand/emblem.webp';
 
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) => {
@@ -40,14 +40,22 @@ const isActive = (href: string) => {
   <!-- Main nav -->
   <div class="border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
     <div class="container-site flex h-[72px] items-center justify-between gap-4">
-      <a href="/" class="flex shrink-0 items-center gap-2" aria-label="Arnav Engineers - Home">
+      <a href="/" class="flex shrink-0 items-center gap-3" aria-label="Arnav Engineers - Home">
         <img
           src={logo.src}
-          alt={`${SITE.name} logo`}
-          width={415}
-          height={375}
-          class="logo-shadow h-16 w-auto"
+          alt=""
+          width={420}
+          height={224}
+          class="logo-shadow h-11 w-auto"
         />
+        <span class="hidden leading-none sm:block">
+          <span class="block font-display text-2xl font-extrabold tracking-wide text-navy-950">
+            ARNAV<span class="text-flame-500">.</span>
+          </span>
+          <span class="block font-display text-sm font-bold uppercase tracking-[0.28em] text-navy-600">
+            ENGINEERS
+          </span>
+        </span>
       </a>
 
       <nav class="hidden lg:block" aria-label="Main navigation">
