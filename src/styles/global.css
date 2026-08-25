@@ -58,6 +58,10 @@
     backdrop-filter: blur(4px);
   }
 
+  dialog[open] {
+    margin: auto;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-bold tracking-tight text-navy-950;
     text-wrap: balance;
