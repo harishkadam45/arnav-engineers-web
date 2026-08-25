@@ -20,6 +20,7 @@
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
-    "lucide-static": "^1.33.0"
+    "lucide-static": "^1.33.0",
+    "netlify-cli": "^27.3.0"
   }
 }
