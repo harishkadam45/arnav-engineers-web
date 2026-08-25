@@ -278,6 +278,48 @@ const mapSrc =
     const dialogClose = document.getElementById('dialog-close');
     if (!form || !status) return;
 
+    // Delivery strategy: on Netlify hosting we use Netlify Forms; everywhere else
+    // (Vercel, localhost, preview servers) submissions go through FormSubmit's AJAX endpoint.
+    // NOTE: FormSubmit requires a ONE-TIME activation — the owner must click the
+    // "Activate Form" link in the email sitting in dattatrayshinde435@gmail.com.
+    const IS_NETLIFY =
+      /(^|\.)netlify\.app$/i.test(location.hostname) ||
+      ['arnavengineers.com', 'www.arnavengineers.com'].includes(location.hostname);
+    const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/dattatrayshinde435@gmail.com';
+
+    async function deliver(data) {
+      if (IS_NETLIFY) {
+        const payload = new URLSearchParams();
+        Object.entries(data).forEach(([key, value]) => {
+          if (typeof value === 'string' && value.trim()) payload.append(key, value.trim());
+        });
+        const res = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: payload.toString(),
+        });
+        if (!res.ok) throw new Error('Netlify submission failed');
+        return;
+      }
+      const res = await fetch(FORMSUBMIT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          name: data.name.trim(),
+          phone: data.phone?.trim() || '-',
+          company: data.company?.trim() || '-',
+          requirement: data.message.trim(),
+          _subject: `Website Enquiry - ${data.name.trim()}`,
+          _template: 'table',
+          _captcha: 'false',
+        }),
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || !(json.success === 'true' || json.success === true)) {
+        throw new Error(json.message || 'FormSubmit failed');
+      }
+    }
+
     // Netlify Forms handles delivery — submissions land in the Netlify dashboard
     // (Forms tab) and are forwarded to the inbox configured in Form notifications.
 
@@ -384,16 +426,7 @@ const mapSrc =
       submitBtn.textContent = 'Submitting…';
 
       try {
-        const payload = new URLSearchParams();
-        Object.entries(data).forEach(([key, value]) => {
-          if (typeof value === 'string' && value.trim()) payload.append(key, value.trim());
-        });
-        const res = await fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: payload.toString(),
-        });
-        if (!res.ok) throw new Error('Submission failed');
+        await deliver(data);
         form.reset();
         fields.forEach((field) => field.input.setAttribute('aria-invalid', 'false'));
         if (dialog) {
