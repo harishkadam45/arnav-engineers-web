@@ -10,6 +10,7 @@ import { PRODUCTS } from '../data/products';
 import heroMachine from '../assets/machines/m1tr-mill.jpg';
 import machineMilling from '../assets/machines/universal-milling.jpg';
 import machineLathe from '../assets/machines/lathe.jpg';
+import heroImg from '../assets/brand/hero.png';
 
 const services = [
   {
@@ -70,20 +71,23 @@ const promises = [
 >
   <!-- ============ HERO ============ -->
   <section class="relative overflow-hidden bg-navy-950">
-    <div class="absolute inset-0 bg-blueprint" aria-hidden="true"></div>
+    <Image
+      src={heroImg}
+      alt=""
+      class="absolute inset-0 h-full w-full object-cover"
+      loading="eager"
+      fetchpriority="high"
+      sizes="100vw"
+      widths={[768, 1280, 1536]}
+    />
     <div
-      class="absolute -top-40 -right-40 size-[560px] rounded-full bg-navy-600/30 blur-3xl"
-      aria-hidden="true"
-    >
-    </div>
-    <div
-      class="absolute -bottom-48 -left-32 size-[480px] rounded-full bg-flame-500/10 blur-3xl"
+      class="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/85 to-navy-900/50"
       aria-hidden="true"
     >
     </div>
 
-    <div class="container-site relative grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-2 lg:gap-16 lg:py-28">
-      <div>
+    <div class="container-site relative py-16 sm:py-20 lg:py-28">
+      <div class="max-w-2xl">
         <p
           class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-medium tracking-wide text-navy-100"
         >
@@ -130,41 +134,6 @@ const promises = [
         </ul>
       </div>
 
-      <!-- Hero visual -->
-      <div class="relative mx-auto w-full max-w-xl lg:max-w-none">
-        <div
-          class="absolute -inset-3 rounded-[2rem] bg-gradient-to-tr from-flame-500/60 via-navy-500/20 to-transparent opacity-70 blur-xl"
-          aria-hidden="true"
-        >
-        </div>
-        <figure
-          class="relative overflow-hidden rounded-[1.75rem] border border-white/15 shadow-2xl shadow-navy-950"
-        >
-          <Image
-            src={heroMachine}
-            alt="M1TR milling machine with digital read-out at Arnav Engineers workshop"
-            widths={[400, 640, 880]}
-            sizes="(min-width: 1024px) 44vw, 92vw"
-            loading="eager"
-            fetchpriority="high"
-            class="aspect-[4/3] w-full object-cover"
-          />
-          <figcaption class="sr-only">M1TR (TRM 3V) milling machine with DRO</figcaption>
-        </figure>
-
-        <!-- floating stat card -->
-        <dl
-          class="absolute -bottom-6 left-4 flex items-center gap-4 rounded-2xl bg-white p-4 pr-6 shadow-xl sm:left-8"
-        >
-          <span class="grid size-11 place-items-center rounded-xl bg-navy-50 text-navy-700">
-            <Icon name="badge-check" className="size-6" />
-          </span>
-          <div>
-            <dt class="text-xs text-slate-500">Measured on</dt>
-            <dd class="text-sm font-bold text-navy-950">Calibrated MITUTOYO instruments</dd>
-          </div>
-        </dl>
-      </div>
     </div>
 
     <!-- Promise strip -->
