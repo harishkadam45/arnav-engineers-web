@@ -2,7 +2,7 @@ import { SITE } from './site';
 
 const businessId = SITE.url;
 
-/** Core LocalBusiness entity — reused across pages via stable @id */
+/** Core LocalBusiness entity - reused across pages via stable @id */
 export const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': ['LocalBusiness', 'Manufacturer'],
@@ -28,7 +28,7 @@ export const localBusinessSchema = {
     latitude: SITE.geo.lat,
     longitude: SITE.geo.lng,
   },
-  // Open Mon–Sat 8:30 AM – 5:00 PM IST; Thursday is the weekly holiday
+  // Open Mon-Sat 8:30 AM - 5:00 PM IST; Thursday is the weekly holiday
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',

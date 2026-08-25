@@ -6,7 +6,7 @@
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: "Space Grotesk Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
 
-  /* Brand navy — anchored to logo #01173C (950) & #003362 (~700) */
+  /* Brand navy - anchored to logo #01173C (950) & #003362 (~700) */
   --color-navy-50: #eef4fb;
   --color-navy-100: #d8e6f6;
   --color-navy-200: #b0caea;
@@ -19,7 +19,7 @@
   --color-navy-900: #02203c;
   --color-navy-950: #01173c;
 
-  /* Brand orange — anchored to logo #F77709 */
+  /* Brand orange - anchored to logo #F77709 */
   --color-flame-50: #fff5e8;
   --color-flame-100: #ffe8cc;
   --color-flame-200: #ffc98f;

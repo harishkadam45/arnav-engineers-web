@@ -17,10 +17,10 @@ export const SITE = {
     country: 'India',
     countryCode: 'IN',
   },
-  // Approximate coordinates for MIDC Bhosari — update with exact gala coords when available
+  // Approximate coordinates for MIDC Bhosari - update with exact gala coords when available
   geo: { lat: 18.6209, lng: 73.8542 },
   hours: {
-    weekdays: 'Mon–Sat',
+    weekdays: 'Mon-Sat',
     open: '8:30 AM',
     close: '5:00 PM',
     weeklyOff: 'Thursday',

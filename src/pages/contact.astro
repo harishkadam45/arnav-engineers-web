@@ -5,7 +5,7 @@ import Icon from '../components/Icon.astro';
 import { SITE } from '../data/site';
 import { breadcrumbSchema, localBusinessSchema } from '../data/schemas';
 
-const description = `Contact Arnav Engineers — call ${SITE.phoneDisplay} or email ${SITE.email} for quotes on precision machined components, welding fixtures, inspection fixtures and prototype parts. Workshop at Rajmata Industrial Estate, MIDC Bhosari, Pune 411026.`;
+const description = `Contact Arnav Engineers - call ${SITE.phoneDisplay} or email ${SITE.email} for quotes on precision machined components, welding fixtures, inspection fixtures and prototype parts. Workshop at Rajmata Industrial Estate, MIDC Bhosari, Pune 411026.`;
 
 const contactCards = [
   {
@@ -51,7 +51,7 @@ const mapSrc =
   <PageHero
     eyebrow="Contact us"
     title="Request a quote or ask a question"
-    description="Share your drawing, sample or requirement — we reply quickly with feasibility, pricing and a committed delivery date."
+    description="Share your drawing, sample or requirement - we reply quickly with feasibility, pricing and a committed delivery date."
     breadcrumbs={[{ label: 'Contact' }]}
   />
 
@@ -84,7 +84,7 @@ const mapSrc =
           <address class="mt-4 text-sm leading-relaxed text-slate-600 not-italic">
             <strong class="font-semibold text-navy-950">Workshop address</strong><br />
             {SITE.address.line1},<br />
-            {SITE.address.line2} — {SITE.address.postalCode},<br />
+            {SITE.address.line2} - {SITE.address.postalCode},<br />
             {SITE.address.state}, {SITE.address.country}
           </address>
           <dl class="mt-5 space-y-2 border-t border-slate-100 pt-5 text-sm">
@@ -99,7 +99,7 @@ const mapSrc =
             <div class="flex justify-between gap-4">
               <dt class="text-slate-500">Working hours</dt>
               <dd class="text-right font-medium text-navy-950">
-                {SITE.hours.weekdays}, {SITE.hours.open} – {SITE.hours.close}
+                {SITE.hours.weekdays}, {SITE.hours.open} - {SITE.hours.close}
               </dd>
             </div>
             <div class="flex justify-between gap-4">
@@ -132,7 +132,7 @@ const mapSrc =
       <div class="rounded-[2rem] bg-navy-950 p-8 sm:p-10">
         <h2 class="text-2xl text-white sm:text-3xl">Send an enquiry</h2>
         <p class="mt-3 text-sm leading-relaxed text-navy-200">
-          Fill in the details below and press Submit — your enquiry goes straight to our inbox and
+          Fill in the details below and press Submit - your enquiry goes straight to our inbox and
           we'll get back to you within one working day. For drawings, WhatsApp a photo or attach
           them when we reply.
         </p>
@@ -149,7 +149,7 @@ const mapSrc =
         >
           <input type="hidden" name="form-name" value="enquiry" />
           <input type="hidden" name="loaded-at" />
-          <!-- Honeypot field for spam bots — humans never see or fill it -->
+          <!-- Honeypot field for spam bots - humans never see or fill it -->
           <p class="hidden" aria-hidden="true">
             <label>Don't fill this out if you're human: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
           </p>
@@ -242,7 +242,7 @@ const mapSrc =
             Prefer talking? Call us directly at
             <a href={`tel:${SITE.phone}`} class="font-semibold text-flame-400 hover:underline">
               {SITE.phoneDisplay}
-            </a>. We work {SITE.hours.weekdays}, {SITE.hours.open} – {SITE.hours.close} (closed on {SITE.hours.weeklyOff}s).
+            </a>. We work {SITE.hours.weekdays}, {SITE.hours.open} - {SITE.hours.close} (closed on {SITE.hours.weeklyOff}s).
           </p>
         </form>
       </div>
@@ -260,7 +260,7 @@ const mapSrc =
     </span>
     <h3 id="success-title" class="mt-5 text-2xl">Enquiry submitted!</h3>
     <p class="mt-3 text-sm leading-relaxed text-slate-600">
-      Thank you — your information has been submitted successfully. Our team will review it and get
+      Thank you - your information has been submitted successfully. Our team will review it and get
       back to you within one working day.
     </p>
     <button
@@ -283,7 +283,7 @@ const mapSrc =
 
     // Delivery strategy: on Netlify hosting we use Netlify Forms; everywhere else
     // (Vercel, localhost, preview servers) submissions go through FormSubmit's AJAX endpoint.
-    // NOTE: FormSubmit requires a ONE-TIME activation — the owner must click the
+    // NOTE: FormSubmit requires a ONE-TIME activation - the owner must click the
     // "Activate Form" link in the email sitting in dattatrayshinde435@gmail.com.
     const IS_NETLIFY =
       /(^|\.)netlify\.app$/i.test(location.hostname) ||
@@ -324,14 +324,14 @@ const mapSrc =
       }
     }
 
-    // Netlify Forms handles delivery — submissions land in the Netlify dashboard
+    // Netlify Forms handles delivery - submissions land in the Netlify dashboard
     // (Forms tab) and are forwarded to the inbox configured in Form notifications.
 
     const VALIDATORS = {
       name: (v) => {
         const t = v.trim();
-        if (!t) return 'Please enter your name — it is required.';
-        if (t.length < 2) return 'Name looks too short — please enter at least 2 characters.';
+        if (!t) return 'Please enter your name - it is required.';
+        if (t.length < 2) return 'Name looks too short - please enter at least 2 characters.';
         if (!/^[A-Za-z][A-Za-z\s.'-]*$/.test(t))
           return 'Name can contain letters, spaces, dots, apostrophes and hyphens only.';
         return '';
@@ -345,7 +345,7 @@ const mapSrc =
         // Accept Indian mobiles: 9876543210, 0 98765 43210, +91 98765 43210
         const national = digits.replace(/^(91|0)/, '');
         if (!/^[6-9]\d{9}$/.test(national))
-          return 'Enter a valid 10-digit mobile starting with 6–9, e.g. +91 98765 43210.';
+          return 'Enter a valid 10-digit mobile starting with 6-9, e.g. +91 98765 43210.';
         return '';
       },
       company: (v) => {
@@ -357,10 +357,10 @@ const mapSrc =
       },
       message: (v) => {
         const t = v.trim();
-        if (!t) return 'Please describe what you need — this field is required.';
+        if (!t) return 'Please describe what you need - this field is required.';
         if (t.length < 10)
           return 'Please write at least 10 characters so we can understand your requirement.';
-        if (t.length > 2000) return 'Message is too long — please keep it under 2000 characters.';
+        if (t.length > 2000) return 'Message is too long - please keep it under 2000 characters.';
         if (((t.match(/https?:\/\/|www\./gi) || []).length) >= 3)
           return 'Your message contains too many links and looks like spam. Please describe your requirement instead.';
         return '';
@@ -469,7 +469,7 @@ const mapSrc =
         }
       } catch {
         status.textContent =
-          'Something went wrong while sending your enquiry. Please call us directly at +91 89567 73435 or email dattatrayshinde435@gmail.com — we will respond quickly.';
+          'Something went wrong while sending your enquiry. Please call us directly at +91 89567 73435 or email dattatrayshinde435@gmail.com - we will respond quickly.';
         status.classList.remove('hidden');
       } finally {
         submitBtn.disabled = false;
