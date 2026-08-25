@@ -72,6 +72,10 @@
   @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
 }
 
+@utility logo-shadow {
+  filter: drop-shadow(0 5px 12px rgb(1 23 60 / 0.35));
+}
+
 /* Blueprint grid backdrop for hero / dark sections */
 @utility bg-blueprint {
   background-image:
