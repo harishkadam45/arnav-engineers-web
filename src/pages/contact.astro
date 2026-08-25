@@ -148,6 +148,7 @@ const mapSrc =
           novalidate
         >
           <input type="hidden" name="form-name" value="enquiry" />
+          <input type="hidden" name="loaded-at" />
           <!-- Honeypot field for spam bots — humans never see or fill it -->
           <p class="hidden" aria-hidden="true">
             <label>Don't fill this out if you're human: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
@@ -293,6 +294,7 @@ const mapSrc =
       if (IS_NETLIFY) {
         const payload = new URLSearchParams();
         Object.entries(data).forEach(([key, value]) => {
+          if (key === 'loaded-at') return;
           if (typeof value === 'string' && value.trim()) payload.append(key, value.trim());
         });
         const res = await fetch('/', {
@@ -359,6 +361,8 @@ const mapSrc =
         if (t.length < 10)
           return 'Please write at least 10 characters so we can understand your requirement.';
         if (t.length > 2000) return 'Message is too long — please keep it under 2000 characters.';
+        if (((t.match(/https?:\/\/|www\./gi) || []).length) >= 3)
+          return 'Your message contains too many links and looks like spam. Please describe your requirement instead.';
         return '';
       },
     };
@@ -404,6 +408,10 @@ const mapSrc =
       });
     });
 
+    // Time-trap: record when the form became interactive; humans take >4s to fill it.
+    const tsInput = form.querySelector('[name="loaded-at"]');
+    tsInput.value = String(Date.now());
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       status.classList.add('hidden');
@@ -422,6 +430,28 @@ const mapSrc =
       }
 
       const data = Object.fromEntries(new FormData(form).entries());
+
+      // Anti-spam time-trap: if submitted faster than a human could type,
+      // silently pretend success without delivering anything.
+      if (Date.now() - parseInt(data['loaded-at'] || '0', 10) < 4000) {
+        form.reset();
+        tsInput.value = String(Date.now());
+        if (dialog) {
+          dialog.showModal();
+        } else {
+          status.textContent = 'Thank you! Your information has been submitted successfully.';
+          status.classList.remove('hidden');
+        }
+        return;
+      }
+
+      // Honeypot tripped: bots that fill the invisible bot-field get the same silent treatment.
+      if ((data['bot-field'] || '').trim() !== '') {
+        form.reset();
+        tsInput.value = String(Date.now());
+        return;
+      }
+
       const submitBtn = form.querySelector('button[type="submit"]');
       const originalLabel = submitBtn.textContent;
       submitBtn.disabled = true;
