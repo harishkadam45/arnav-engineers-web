@@ -311,23 +311,31 @@ const promises = [
       <p class="text-center text-xs font-semibold tracking-[0.22em] text-slate-500 uppercase">
         Trusted by teams across Pune's manufacturing belt
       </p>
-      <ul
-        class="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-center"
-      >
+    </div>
+
+    <div class="marquee mt-8" role="region" aria-label="Our clients">
+      <div class="marquee-track">
         {
-          [
-            'Delight Process Designers & Automation',
-            'Kudale Automation',
-            'Cork Automation',
-            '3D Cad India Pvt. Ltd.',
-            'Kirpekar Engineering Pvt. Ltd.',
-          ].map((name) => (
-            <li class="font-display text-base font-bold text-navy-900/70 transition-colors hover:text-navy-950 sm:text-lg">
-              {name}
-            </li>
+          [0, 1].map((copy) => (
+            <ul class="flex shrink-0 items-center gap-4 pr-4" aria-hidden={copy === 1}>
+              {[
+                'Delight Process Designers & Automation',
+                'Kudale Automation',
+                'Cork Automation',
+                '3D Cad India Pvt. Ltd.',
+                'Kirpekar Engineering Pvt. Ltd.',
+              ].map((name) => (
+                <li class="flex items-center gap-2.5 rounded-2xl border border-slate-200 bg-white px-6 py-4 shadow-card transition-colors hover:border-flame-400">
+                  <Icon name="factory" className="size-5 shrink-0 text-flame-500" />
+                  <span class="font-display text-base font-bold whitespace-nowrap text-navy-900/80 sm:text-lg">
+                    {name}
+                  </span>
+                </li>
+              ))}
+            </ul>
           ))
         }
-      </ul>
+      </div>
     </div>
   </section>
 
@@ -370,3 +378,39 @@ const promises = [
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: clients-marquee 30s linear infinite;
+  }
+
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes clients-marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+    .marquee {
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-inline: 1rem;
+    }
+  }
+</style>
