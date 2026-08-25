@@ -19,6 +19,15 @@ export const SITE = {
   },
   // Approximate coordinates for MIDC Bhosari — update with exact gala coords when available
   geo: { lat: 18.6209, lng: 73.8542 },
+  hours: {
+    weekdays: 'Mon–Sat',
+    open: '8:30 AM',
+    close: '5:00 PM',
+    weeklyOff: 'Thursday',
+    // 24h values for structured data (schema.org)
+    opensSchema: '08:30',
+    closesSchema: '17:00',
+  },
 } as const;
 
 export const NAV_LINKS = [

@@ -28,6 +28,15 @@ export const localBusinessSchema = {
     latitude: SITE.geo.lat,
     longitude: SITE.geo.lng,
   },
+  // Open Mon–Sat 8:30 AM – 5:00 PM IST; Thursday is the weekly holiday
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Friday', 'Saturday'],
+      opens: SITE.hours.opensSchema,
+      closes: SITE.hours.closesSchema,
+    },
+  ],
   areaServed: [
     { '@type': 'City', name: 'Pune' },
     { '@type': 'State', name: 'Maharashtra' },

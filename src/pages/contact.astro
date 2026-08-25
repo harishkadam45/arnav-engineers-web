@@ -95,6 +95,16 @@ const mapSrc =
               <dd class="text-right font-medium text-navy-950">{SITE.proprietor}</dd>
             </div>
             <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Working hours</dt>
+              <dd class="text-right font-medium text-navy-950">
+                {SITE.hours.weekdays}, {SITE.hours.open} – {SITE.hours.close}
+              </dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Weekly off</dt>
+              <dd class="text-right font-medium text-navy-950">{SITE.hours.weeklyOff}</dd>
+            </div>
+            <div class="flex justify-between gap-4">
               <dt class="text-slate-500">Service area</dt>
               <dd class="text-right font-medium text-navy-950">Pune & PCMC industrial belt</dd>
             </div>
@@ -215,7 +225,7 @@ const mapSrc =
             Prefer talking? Call us directly at
             <a href={`tel:${SITE.phone}`} class="font-semibold text-flame-400 hover:underline">
               {SITE.phoneDisplay}
-            </a>. We're usually reachable Mon–Sat during working hours.
+            </a>. We work {SITE.hours.weekdays}, {SITE.hours.open} – {SITE.hours.close} (closed on {SITE.hours.weeklyOff}s).
           </p>
         </form>
       </div>
