@@ -135,10 +135,16 @@ const mapSrc =
                 name="name"
                 type="text"
                 required
+                maxlength="60"
                 autocomplete="name"
                 placeholder="Full name"
+                aria-describedby="err-name"
                 class="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-navy-300 focus:border-flame-500 focus:bg-white/10 focus:outline-none"
               />
+              <p id="err-name" data-error="name" hidden class="mt-1.5 flex items-start gap-1.5 text-xs font-medium text-red-300">
+                <Icon name="circle-alert" className="mt-px size-3.5 shrink-0" />
+                <span></span>
+              </p>
             </div>
             <div>
               <label for="f-phone" class="mb-1.5 block text-sm font-semibold text-navy-100">
@@ -148,10 +154,16 @@ const mapSrc =
                 id="f-phone"
                 name="phone"
                 type="tel"
+                maxlength="16"
                 autocomplete="tel"
-                placeholder="+91 …"
+                placeholder="+91 98765 43210"
+                aria-describedby="err-phone"
                 class="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-navy-300 focus:border-flame-500 focus:bg-white/10 focus:outline-none"
               />
+              <p id="err-phone" data-error="phone" hidden class="mt-1.5 flex items-start gap-1.5 text-xs font-medium text-red-300">
+                <Icon name="circle-alert" className="mt-px size-3.5 shrink-0" />
+                <span></span>
+              </p>
             </div>
           </div>
           <div>
@@ -162,10 +174,16 @@ const mapSrc =
               id="f-company"
               name="company"
               type="text"
+              maxlength="80"
               autocomplete="organization"
               placeholder="Company Pvt. Ltd."
+              aria-describedby="err-company"
               class="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-navy-300 focus:border-flame-500 focus:bg-white/10 focus:outline-none"
             />
+            <p id="err-company" data-error="company" hidden class="mt-1.5 flex items-start gap-1.5 text-xs font-medium text-red-300">
+              <Icon name="circle-alert" className="mt-px size-3.5 shrink-0" />
+              <span></span>
+            </p>
           </div>
           <div>
             <label for="f-message" class="mb-1.5 block text-sm font-semibold text-navy-100">
@@ -176,8 +194,14 @@ const mapSrc =
               name="message"
               rows="5"
               required
+              maxlength="2000"
               placeholder="e.g. Need 50 brass bushings machined per drawing — can share PDF."
+              aria-describedby="err-message"
               class="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-navy-300 focus:border-flame-500 focus:bg-white/10 focus:outline-none"></textarea>
+            <p id="err-message" data-error="message" hidden class="mt-1.5 flex items-start gap-1.5 text-xs font-medium text-red-300">
+              <Icon name="circle-alert" className="mt-px size-3.5 shrink-0" />
+              <span></span>
+            </p>
           </div>
           <button
             type="submit"
@@ -204,14 +228,104 @@ const mapSrc =
     const form = document.getElementById('enquiry-form');
     const status = document.getElementById('form-status');
     if (!form || !status) return;
+
+    const VALIDATORS = {
+      name: (v) => {
+        const t = v.trim();
+        if (!t) return 'Please enter your name — it is required.';
+        if (t.length < 2) return 'Name looks too short — please enter at least 2 characters.';
+        if (!/^[A-Za-z][A-Za-z\s.'-]*$/.test(t))
+          return 'Name can contain letters, spaces, dots, apostrophes and hyphens only.';
+        return '';
+      },
+      phone: (v) => {
+        const t = v.trim();
+        if (!t) return ''; // optional field
+        if (/[A-Za-z]/.test(t)) return 'Phone number cannot contain letters.';
+        if (/[^+\d\s().-]/.test(t)) return 'Phone can contain digits, + and spaces only.';
+        const digits = t.replace(/\D/g, '');
+        // Accept Indian mobiles: 9876543210, 0 98765 43210, +91 98765 43210
+        const national = digits.replace(/^(91|0)/, '');
+        if (!/^[6-9]\d{9}$/.test(national))
+          return 'Enter a valid 10-digit mobile starting with 6–9, e.g. +91 98765 43210.';
+        return '';
+      },
+      company: (v) => {
+        const t = v.trim();
+        if (!t) return ''; // optional field
+        if (t.length < 2) return 'Company name looks too short.';
+        if (t.length > 80) return 'Please keep the company name under 80 characters.';
+        return '';
+      },
+      message: (v) => {
+        const t = v.trim();
+        if (!t) return 'Please describe what you need — this field is required.';
+        if (t.length < 10)
+          return 'Please write at least 10 characters so we can understand your requirement.';
+        if (t.length > 2000) return 'Message is too long — please keep it under 2000 characters.';
+        return '';
+      },
+    };
+
+    const ERR_BORDER = 'border-red-500';
+    const BASE_BORDER = 'border-white/15';
+    const FOCUS_OK = 'focus:border-flame-500';
+    const FOCUS_ERR = 'focus:border-red-500';
+
+    const fields = Object.keys(VALIDATORS).map((name) => ({
+      name,
+      input: form.querySelector(`[name="${name}"]`),
+      errorEl: form.querySelector(`[data-error="${name}"]`),
+    }));
+
+    function validateField(field) {
+      const msg = VALIDATORS[field.name](field.input.value);
+      if (msg) {
+        field.input.setAttribute('aria-invalid', 'true');
+        field.input.classList.remove(BASE_BORDER, FOCUS_OK);
+        field.input.classList.add(ERR_BORDER, FOCUS_ERR);
+        field.errorEl.querySelector('span').textContent = msg;
+        field.errorEl.hidden = false;
+      } else {
+        field.input.setAttribute('aria-invalid', 'false');
+        field.input.classList.add(BASE_BORDER, FOCUS_OK);
+        field.input.classList.remove(ERR_BORDER, FOCUS_ERR);
+        field.errorEl.hidden = true;
+      }
+      return !msg;
+    }
+
+    fields.forEach((field) => {
+      if (!field.input || !field.errorEl) return;
+      field.input.addEventListener('blur', () => {
+        // Only show errors on blur once the user has typed something or tried to submit
+        if (field.input.value.trim() !== '' || field.input.getAttribute('aria-invalid') === 'true') {
+          validateField(field);
+        }
+      });
+      field.input.addEventListener('input', () => {
+        if (field.input.getAttribute('aria-invalid') === 'true') validateField(field);
+      });
+    });
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const data = Object.fromEntries(new FormData(form).entries());
-      if (!data.name?.trim() || !data.message?.trim()) {
-        status.textContent = 'Please fill in your name and what you need.';
+      status.classList.add('hidden');
+
+      let firstInvalid = null;
+      fields.forEach((field) => {
+        const ok = validateField(field);
+        if (!ok && !firstInvalid) firstInvalid = field.input;
+      });
+
+      if (firstInvalid) {
+        status.textContent = 'Please fix the highlighted fields and try again.';
         status.classList.remove('hidden');
+        firstInvalid.focus();
         return;
       }
+
+      const data = Object.fromEntries(new FormData(form).entries());
       const subject = encodeURIComponent(
         `Enquiry from ${data.name.trim()}${data.company ? ' — ' + data.company.trim() : ''}`,
       );
