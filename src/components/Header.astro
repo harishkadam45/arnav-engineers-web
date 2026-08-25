@@ -1,7 +1,7 @@
 ---
 import { SITE, NAV_LINKS } from '../data/site';
 import Icon from './Icon.astro';
-import logo from '../assets/brand/logo.jpeg';
+import logo from '../assets/brand/logo.png';
 
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) => {
@@ -44,9 +44,9 @@ const isActive = (href: string) => {
         <img
           src={logo.src}
           alt={`${SITE.name} logo`}
-          width={124}
-          height={100}
-          class="h-12 w-auto"
+          width={415}
+          height={375}
+          class="h-16 w-auto"
         />
       </a>
 
