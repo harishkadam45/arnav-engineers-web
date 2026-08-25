@@ -237,7 +237,7 @@ const mapSrc =
           >
             Submit
           </button>
-          <p id="form-status" class="hidden rounded-xl bg-flame-500/10 px-4 py-3 text-sm text-flame-300" role="status"></p>
+          <p id="form-status" class="hidden rounded-xl bg-flame-500/10 px-4 py-3 text-sm text-flame-300" role="status" aria-live="polite"></p>
           <p class="text-xs leading-relaxed text-navy-300">
             Prefer talking? Call us directly at
             <a href={`tel:${SITE.phone}`} class="font-semibold text-flame-400 hover:underline">
@@ -253,6 +253,8 @@ const mapSrc =
   <dialog
     id="success-dialog"
     aria-labelledby="success-title"
+    role="dialog"
+    aria-modal="true"
     class="w-[calc(100%-2rem)] max-w-md rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-card-lg sm:p-10"
   >
     <span class="mx-auto grid size-16 place-items-center rounded-full bg-flame-500/15 text-flame-600">
@@ -463,6 +465,7 @@ const mapSrc =
         fields.forEach((field) => field.input.setAttribute('aria-invalid', 'false'));
         if (dialog) {
           dialog.showModal();
+          if (dialogClose) dialogClose.focus();
         } else {
           status.textContent = 'Thank you! Your information has been submitted successfully.';
           status.classList.remove('hidden');
@@ -478,9 +481,16 @@ const mapSrc =
     });
 
     if (dialog && dialogClose) {
-      dialogClose.addEventListener('click', () => dialog.close());
+      dialogClose.addEventListener('click', () => {
+        dialog.close();
+        submitBtn?.focus();
+      });
       dialog.addEventListener('click', (e) => {
-        if (e.target === dialog) dialog.close();
+        if (e.target === dialog) {
+          dialog.close();
+          submitBtn?.focus();
+        }
+      });
       });
     }
   })();
