@@ -7,7 +7,7 @@ import { SITE } from '../data/site';
 import { breadcrumbSchema, localBusinessSchema } from '../data/schemas';
 
 const description =
-  'Arnav Engineers, based in Chikhali (Pune), manufactures precision machined components, welding fixtures, inspection fixtures and prototype parts — led by proprietor Dattatraya Shinde with a skilled in-house team.';
+  'Arnav Engineers, based at Rajmata Industrial Estate, MIDC Bhosari (Pune), manufactures precision machined components, welding fixtures, inspection fixtures and prototype parts — led by proprietor Dattatraya Shinde with a skilled in-house team.';
 
 const team = [
   { role: 'Accountant', qualification: 'B.Com', count: 1 },
@@ -62,13 +62,15 @@ const promises = [
         <div class="mt-6 space-y-5 text-base leading-relaxed text-slate-600">
           <p>
             <strong class="font-semibold text-navy-900">{SITE.name}</strong> is a tool room company
-            based at Chikhali on Dehu-Alandi Road, Pune. We manufacture & supply precision machined
+            based at Rajmata Industrial Estate, Gala No. 42, Plot No. T-58, in MIDC Bhosari, Pune —
+            the heart of Pune's manufacturing belt. We manufacture & supply precision machined
             components and take up tool room job works of every size.
           </p>
           <p>
             Alongside machining, we design, manufacture & supply welding fixtures, inspection
             fixtures and prototype parts for automation, automotive and general engineering
-            companies across the Pune industrial belt — including Bhosari, Chakan and PCMC areas.
+            companies across the Pune industrial belt — including our neighbours here in MIDC
+            Bhosari and teams across PCMC and Chakan.
           </p>
           <p>
             The company is led by proprietor <strong class="font-semibold text-navy-900"
@@ -90,7 +92,7 @@ const promises = [
           </div>
           <div class="col-span-2 rounded-xl border border-slate-200 bg-slate-50 p-4 sm:col-span-1">
             <dt class="text-xs font-medium tracking-wide text-slate-500 uppercase">Location</dt>
-            <dd class="mt-1 text-sm font-bold text-navy-950">Chikhali, Pune — 411062</dd>
+            <dd class="mt-1 text-sm font-bold text-navy-950">MIDC Bhosari, Pune — {SITE.address.postalCode}</dd>
           </div>
         </dl>
       </div>

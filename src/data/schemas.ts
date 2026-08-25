@@ -18,7 +18,7 @@ export const localBusinessSchema = {
   address: {
     '@type': 'PostalAddress',
     streetAddress: SITE.address.line1,
-    addressLocality: 'Chikhali, Pune',
+    addressLocality: SITE.address.line2,
     addressRegion: SITE.address.state,
     postalCode: SITE.address.postalCode,
     addressCountry: SITE.address.countryCode,
