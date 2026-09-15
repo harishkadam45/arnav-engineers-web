@@ -100,6 +100,26 @@
   }
 }
 
+/* Horizontal scrollbar as a short, rounded pill so it stays inside rounded card corners */
+.card-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(148 163 184 / 0.85) transparent;
+  overscroll-behavior-inline: contain;
+}
+.card-scroll::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+.card-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.card-scroll::-webkit-scrollbar-thumb {
+  background: rgb(148 163 184 / 0.85);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
 /* Performance: skip rendering off-screen sections until near viewport */
 section:not(:first-child) {
   content-visibility: auto;
