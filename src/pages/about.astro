@@ -141,30 +141,32 @@ const promises = [
         </ul>
       </div>
 
-      <div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-card">
-        <table class="w-full min-w-[420px] text-left text-sm">
-          <caption class="sr-only">Arnav Engineers manpower and qualifications</caption>
-          <thead class="bg-navy-950 text-white">
-            <tr>
-              <th scope="col" class="px-6 py-4 font-semibold">Role</th>
-              <th scope="col" class="px-6 py-4 font-semibold">Qualification</th>
-              <th scope="col" class="px-6 py-4 text-right font-semibold">Headcount</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100">
-            {
-              team.map((m) => (
-                <tr class="transition-colors hover:bg-navy-50/50">
-                  <th scope="row" class="px-6 py-3.5 font-medium text-navy-950">
-                    {m.role}
-                  </th>
-                  <td class="px-6 py-3.5 text-slate-600">{m.qualification}</td>
-                  <td class="px-6 py-3.5 text-right font-semibold text-navy-800">{m.count}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
+      <div class="rounded-2xl border border-slate-200 bg-white shadow-card p-4 sm:p-5">
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[420px] text-left text-sm">
+            <caption class="sr-only">Arnav Engineers manpower and qualifications</caption>
+            <thead class="text-white">
+              <tr class="bg-navy-950">
+                <th scope="col" class="rounded-l-xl px-6 py-4 font-semibold">Role</th>
+                <th scope="col" class="px-6 py-4 font-semibold">Qualification</th>
+                <th scope="col" class="rounded-r-xl px-6 py-4 text-right font-semibold">Headcount</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              {
+                team.map((m) => (
+                  <tr class="transition-colors hover:bg-navy-50/50">
+                    <th scope="row" class="px-6 py-3.5 font-medium text-navy-950">
+                      {m.role}
+                    </th>
+                    <td class="px-6 py-3.5 text-slate-600">{m.qualification}</td>
+                    <td class="px-6 py-3.5 text-right font-semibold text-navy-800">{m.count}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </section>
