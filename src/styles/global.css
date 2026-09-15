@@ -115,7 +115,7 @@
 }
 .card-scroll::-webkit-scrollbar-thumb {
   background: rgb(148 163 184 / 0.85);
-  border-radius: 9999px;
+  border-radius: 1rem;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
