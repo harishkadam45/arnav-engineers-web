@@ -112,10 +112,11 @@
 }
 .card-scroll::-webkit-scrollbar-track {
   background: transparent;
+  margin-inline: 1rem;
 }
 .card-scroll::-webkit-scrollbar-thumb {
   background: rgb(148 163 184 / 0.85);
-  border-radius: 1rem;
+  border-radius: 0;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
